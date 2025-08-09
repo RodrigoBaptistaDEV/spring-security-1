@@ -5,6 +5,8 @@ import io.github.cursodsousa.libraryapi.livraria.model.Autor;
 import io.github.cursodsousa.libraryapi.livraria.repository.AutorRepository;
 import io.github.cursodsousa.libraryapi.livraria.repository.LivroRepository;
 import io.github.cursodsousa.libraryapi.livraria.validator.AutorValidator;
+import io.github.cursodsousa.libraryapi.usuario.model.Usuario;
+import io.github.cursodsousa.libraryapi.usuario.security.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -21,9 +23,12 @@ public class AutorService {
     private final AutorRepository repository;
     private final AutorValidator validator;
     private final LivroRepository livroRepository;
+    private final SecurityService securityService;
 
     public Autor salvar(Autor autor){
         validator.validar(autor);
+        Usuario usuario = securityService.obterUsuarioLogado();
+        autor.setUsuario(usuario);
         return repository.save(autor);
     }
 

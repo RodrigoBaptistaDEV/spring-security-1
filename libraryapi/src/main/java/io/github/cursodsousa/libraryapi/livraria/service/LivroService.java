@@ -4,6 +4,8 @@ import io.github.cursodsousa.libraryapi.livraria.model.GeneroLivro;
 import io.github.cursodsousa.libraryapi.livraria.model.Livro;
 import io.github.cursodsousa.libraryapi.livraria.repository.LivroRepository;
 import io.github.cursodsousa.libraryapi.livraria.validator.LivroValidator;
+import io.github.cursodsousa.libraryapi.usuario.model.Usuario;
+import io.github.cursodsousa.libraryapi.usuario.security.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,9 +24,12 @@ public class LivroService {
 
     private final LivroRepository repository;
     private final LivroValidator validator;
+    private final SecurityService securityService;
 
     public Livro salvar(Livro livro) {
         validator.validar(livro);
+        Usuario usuario = securityService.obterUsuarioLogado();
+        livro.setUsuario(usuario);
         return repository.save(livro);
     }
 
@@ -36,7 +41,7 @@ public class LivroService {
         repository.delete(livro);
     }
 
-     //isbn, titulo, nome autor, genero, ano de publicação
+    //isbn, titulo, nome autor, genero, ano de publicação
     public Page<Livro> pesquisa(
             String isbn,
             String titulo,

@@ -1,5 +1,6 @@
 package io.github.cursodsousa.libraryapi.livraria.model;
 
+import io.github.cursodsousa.libraryapi.usuario.model.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -41,7 +42,7 @@ public class Livro {
 
     @ManyToOne(
 //            cascade = CascadeType.ALL,
-        fetch = FetchType.LAZY
+            fetch = FetchType.LAZY
     )
     @JoinColumn(name = "id_autor")
     private Autor autor;
@@ -54,6 +55,7 @@ public class Livro {
     @Column(name = "data_atualizacao")
     private LocalDateTime dataAtualizacao;
 
-    @Column(name = "id_usuario")
-    private UUID idUsuario;
+    @ManyToOne
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
 }
