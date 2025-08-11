@@ -42,8 +42,9 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder(10);
     }
 
-    @Bean
-    public UserDetailsService userDetailsService(UsuarioService usuarioService){
-        return new CustomUserDetailsService(usuarioService);
-    }
+    /** comentado para carregar o CustomAuthetnicationProvider **/
+    //    //@Bean Comentado
+    //    public UserDetailsService userDetailsService(UsuarioService usuarioService){
+    //        return new CustomUserDetailsService(usuarioService);
+    //    }
 }
